@@ -1,7 +1,7 @@
 import os
 import time
 import random
-
+from multiprocessing import Process
 class PAC:
 
     def __init__(self, size=13):    
@@ -20,7 +20,7 @@ class PAC:
             ['%', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
             ['%', '*', '%', '*', '%', '%', '%', '%', '%', '%', '%', '%', '*'],
             ['%', '*', '%', '*', '*', '*', '*', '*', '*', '*', '*', '%', '*'],
-            ['%', '*', '%', '%', '%', '%', '%', '%', '%', '%', '*', '%', '*'],
+            ['%', '*', '%', '%', '%', '%', '%', '%', '%', '%', 'X', '%', '*'],
             ['%', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '%', '*'],
             ['%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%']
         ]
@@ -132,7 +132,8 @@ class PAC:
         playing=True
         while playing:
             self.display_game()
-            self.move_pacman()
+            p1 = Process(target=self.move_pacman())
+            p1.start()
             time.sleep(.4)
             playing=False
             for i in range(self.size):
