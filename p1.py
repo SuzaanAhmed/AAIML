@@ -171,7 +171,7 @@ class PAC:
                     if self.game[self.pac_x][y] == '%':
                         break
                     if self.game[self.pac_x][y] == '*':
-                        steps_count += 3
+                        steps_count += 10
                     if self.game[self.pac_x][y] == ' ':
                         steps_count += 1
             elif direction == "left":
@@ -179,7 +179,7 @@ class PAC:
                     if self.game[self.pac_x][y] == '%':
                         break
                     if self.game[self.pac_x][y] == '*':
-                        steps_count += 3
+                        steps_count += 10
                     if self.game[self.pac_x][y] == ' ':
                         steps_count += 1
             elif direction == "up":
@@ -187,7 +187,7 @@ class PAC:
                     if self.game[x][self.pac_y] == '%':
                         break
                     if self.game[x][self.pac_y] == '*':
-                        steps_count += 3
+                        steps_count += 10
                     if self.game[x][self.pac_y] == ' ':
                         steps_count += 1
             elif direction == "down":
@@ -195,7 +195,7 @@ class PAC:
                     if self.game[x][self.pac_y] == '%':
                         break
                     if self.game[x][self.pac_y] == '*':
-                        steps_count += 3
+                        steps_count += 10
                     if self.game[x][self.pac_y] == ' ':
                         steps_count += 1
             
