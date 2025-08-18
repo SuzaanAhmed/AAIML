@@ -40,20 +40,30 @@ def player_move(board):
 def computer_move(board, player, computer):
     available_moves = get_available_moves(board)
     # Try to win
-    for move in available_moves:
-        board[move[0]][move[1]] = computer
+    for x,y in available_moves:
+        board[x][y] = computer
         if check_winner(board, computer):
             return move
-        board[move[0]][move[1]] = ' '  # Undo move
+        board[x][y] = ' '  # Undo move
     # Block player from winning
     for move in available_moves:
-        board[move[0]][move[1]] = player
+        board[x][y] = player
         if check_winner(board, player):
-            # board[move[0]][move[1]] = computer //do not actually need this AFAIK beacuse we just return the moves
+            # board[x][y] = computer //do not actually need this AFAIK beacuse we just return the moves
             return move
-        board[move[0]][move[1]] = ' '  # Undo move
+        board[x][y] = ' '  # Undo move
     # Otherwise, make a random move
     return random.choice(available_moves)
+
+def print_board(board):
+    for x in range(3):
+        print('|',end='')
+        for y in range(3):
+            print(f" {board[x][y]} ",end='')
+            print('|',end='')
+        print(' ')
+        
+            
 
 def play_game():
     # Creating a 2D array board with string value ' ' in it.
@@ -61,6 +71,7 @@ def play_game():
     player = 'X'
     computer = 'O'
     while True:
+        print_board(board)
         if check_winner(board, 'X'):
             print("Congratulations! You win!")
             break

@@ -48,5 +48,3 @@ class AASCII_GridSearch:
 if __name__=="__main__":
     myMain=AASCII_GridSearch()
     myMain.run_search()
-    
-        
