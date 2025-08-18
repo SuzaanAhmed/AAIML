@@ -3,12 +3,11 @@ import time
 import random
 
 class PAC:
-
     def __init__(self, size=13):
         self.size = size
         self.cols = size
         self.rows = size
-        
+
         self.game = [
             ['%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%'],
             ['%', 'O', '*', '*', '%', '*', '*', '*', '%', '*', '*', '*', '*'],
