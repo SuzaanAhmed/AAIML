@@ -43,13 +43,6 @@ class PAC:
             "d":"down"
         }
 
-        self.opposite_directions = {
-            "right": "left",
-            "left": "right",
-            "up": "down",
-            "down": "up"
-        }
-
     def display_game(self):
 
         os.system('cls' if os.name == 'nt' else 'clear')
