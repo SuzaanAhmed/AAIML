@@ -46,7 +46,7 @@ class PAC:
     def display_game(self):
 
         os.system('cls' if os.name == 'nt' else 'clear')
-        # terminal clearance
+        # clears terminal
         for i in range(self.cols):
             print("|", end="")
             for j in range(self.rows):
@@ -61,45 +61,45 @@ class PAC:
                 return turn
 
     def get_next_pac_direction(self):
-        
         possible_moves = {}
         for direction, (dx, dy) in self.directions.items():
+            #checks immediate next move's validity
             next_x, next_y = self.pac_x + dx, self.pac_y + dy
             if not (0 <= next_x < self.rows and 0 <= next_y < self.cols and self.game[next_x][next_y] != '%'):
                 if self.pac_traversal==direction: self.pac_traversal==""
                 continue 
             
-            steps_count = 0
+            pellet_count = 0
             if direction == "right":
                 for y in range(self.pac_y + 1, self.cols):
                     if self.game[self.pac_x][y] == '%':
                         break
                     if self.game[self.pac_x][y] == '*':
-                        steps_count += 10
+                        pellet_count += 10
                         
             elif direction == "left":
                 for y in range(self.pac_y - 1, -1, -1):
                     if self.game[self.pac_x][y] == '%':
                         break
                     if self.game[self.pac_x][y] == '*':
-                        steps_count += 10
+                        pellet_count += 10
                         
             elif direction == "up":
                 for x in range(self.pac_x - 1, -1, -1):
                     if self.game[x][self.pac_y] == '%':
                         break
                     if self.game[x][self.pac_y] == '*':
-                        steps_count += 10
+                        pellet_count += 10
                         
             elif direction == "down":
                 for x in range(self.pac_x + 1, self.rows):
                     if self.game[x][self.pac_y] == '%':
                         break
                     if self.game[x][self.pac_y] == '*':
-                        steps_count += 10
+                        pellet_count += 10
                         
-            
-            possible_moves[direction] = steps_count
+            #counts most pellets in each direction to find optimal turn from the 4 set of pellets
+            possible_moves[direction] = pellet_count
             
         if not possible_moves:
             return None # Pac-Man is trapped
