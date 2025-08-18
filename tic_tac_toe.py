@@ -63,8 +63,6 @@ def print_board(board):
             print('|',end='')
         print(' ')
         
-            
-
 def play_game():
     # Creating a 2D array board with string value ' ' in it.
     board = [[' ' for _ in range(3)] for _ in range(3)]
