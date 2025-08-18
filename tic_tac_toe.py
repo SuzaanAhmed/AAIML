@@ -79,7 +79,9 @@ def play_game():
         else:
 
             row, col = computer_move(board,'X','O')
-             #row, col = computer_move(board, computer, player) was this initially, nut that just unnecessarily complicated it so fuck that
+            '''row, col = computer_move(board, computer, player) was this initially, 
+            nut that just unnecessarily complicated it so fuck that
+            '''
             board[row][col] = 'O'
             player = 'X'
             # computer = 'O'
