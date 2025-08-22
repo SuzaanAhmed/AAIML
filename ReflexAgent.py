@@ -28,13 +28,19 @@ class PAC:
         self.pac_y = 1
         self.game[self.pac_x][self.pac_y] = 'O'
         self.pac_traversal="right"
-        
+        '''
+        pac-x & pac_y, global variables to store the current position of pacman
+        gam[][] 2D array to store the game state
+        pac_traversal stores the last direction of pacman         
+        '''
+
         self.directions = {
             "right": (0, 1),
             "left": (0, -1),
             "up": (-1, 0),
             "down": (1, 0)
         }
+        '''Dictionary to store the possible directions and their respective coordinate changes'''
 
         self.turn={
             "r":"right",
@@ -42,6 +48,7 @@ class PAC:
             "u":"up",
             "d":"down"
         }
+        ''''Dictionary to store the manual turn signal prompts'''
 
     def display_game(self):
 
@@ -100,9 +107,6 @@ class PAC:
                         
             #counts most pellets in each direction to find optimal turn from the 4 set of pellets
             possible_moves[direction] = pellet_count
-            
-        if not possible_moves:
-            return None # Pac-Man is trapped
         
         max_moves = max(possible_moves.values())
         best_directions = [
