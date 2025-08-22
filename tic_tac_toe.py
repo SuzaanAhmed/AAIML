@@ -1,4 +1,5 @@
 import random
+import time
 
 def check_winner(board, player):
     # Check for row wins
@@ -38,30 +39,34 @@ def player_move(board):
             print("Invalid input. Please enter two integers separated by a space.")
 
 def computer_move(board, player, computer):
+    time.sleep(1)
     available_moves = get_available_moves(board)
     # Try to win
     for x,y in available_moves:
         board[x][y] = computer
         if check_winner(board, computer):
-            return move
+            return x,y
         board[x][y] = ' '  # Undo move
     # Block player from winning
     for move in available_moves:
         board[x][y] = player
         if check_winner(board, player):
             # board[x][y] = computer //do not actually need this AFAIK beacuse we just return the moves
-            return move
+            return x,y
         board[x][y] = ' '  # Undo move
     # Otherwise, make a random move
     return random.choice(available_moves)
 
 def print_board(board):
+    print('-------------')
     for x in range(3):
         print('|',end='')
         for y in range(3):
             print(f" {board[x][y]} ",end='')
             print('|',end='')
         print(' ')
+        print('-------------')
+        print
         
 def play_game():
     # Creating a 2D array board with string value ' ' in it.
