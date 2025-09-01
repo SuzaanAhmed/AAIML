@@ -3,31 +3,30 @@ import time
 import random
 
 class PAC:
-    def __init__(self, size=13):
+    def __init__(self, size=12):
         self.size = size
         self.cols = size
         self.rows = size
 
         self.game = [
-            ['%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%'],
-            ['%', 'O', '*', '*', '%', '*', '*', '*', '%', '*', '*', '*', '*'],
-            ['%', '%', '%', '*', '%', '*', '%', '*', '%', '*', '%', '%', '*'],
-            ['%', '*', '%', '*', '*', '*', '%', '*', '*', '*', '*', '%', '*'],
-            ['%', '*', '%', '%', '%', '%', '%', '*', '%', '%', '*', '%', '*'],
-            ['%', '*', '*', '*', '*', '%', '*', '*', '%', '*', '*', '%', '*'],
-            ['%', '%', '%', '%', '*', '%', '%', '%', '%', '*', '%', '%', '*'],
-            ['%', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-            ['%', '*', '%', '*', '%', '%', '%', '%', '%', '%', '%', '%', '*'],
-            ['%', '*', '%', '*', '*', '*', '*', '*', '*', '*', '*', '%', '*'],
-            ['%', '*', '%', '%', '%', '%', '%', '%', '%', '%', '*', '%', '*'],
-            ['%', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '%', '*'],
-            ['%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%']
+            ['%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%'],
+            ['%', 'O', '*', '*', '%', '*', '*', '*', '%', '*', '*', '*'],
+            ['%', '*', '%', '*', '%', '*', '%', '*', '%', '*', '%', '%'],
+            ['%', '*', '%', '*', '*', '*', '%', '*', '*', '*', '*', '%'],
+            ['%', '*', '%', '%', '*', '%', '%', '*', '%', '%', '*', '%'],
+            ['%', '*', '*', '*', '*', '%', '*', '*', '%', '*', '*', '%'],
+            ['%', '*', '%', '%', '*', '%', '*', '*', '%', '*', '%', '%'],
+            ['%', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
+            ['%', '*', '%', '*', '%', '%', '*', '%', '%', '%', '*', '%'],
+            ['%', '*', '%', '*', '*', '*', '*', '*', '*', '*', '*', '%'],
+            ['%', '*', '%', '%', '*', '*', '*', '*', '*', '%', '*', '%'],
+            ['%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%', '%']
         ]
 
         self.pac_x = 1
         self.pac_y = 1
         self.game[self.pac_x][self.pac_y] = 'O'
-        self.pac_traversal="right"
+        self.pac_traversal=""
         '''
         pac-x & pac_y, global variables to store the current position of pacman
         gam[][] 2D array to store the game state
@@ -114,17 +113,18 @@ class PAC:
             if count == max_moves
         ]
         
-        if all(value == max_moves for value in possible_moves.values()):
-            return pac.manual_direction()
-
-        return random.choice(best_directions)
+        if self.pac_traversal in best_directions:
+            return self.pac_traversal
+        
+        self.pac_traversal = random.choice(best_directions)
+        return self.pac_traversal
     
     def move_pacman(self):
     
         next_direction = self.get_next_pac_direction()
         
         if next_direction is None:
-            return # Pac-Man is trapped, so he stops moving
+            return # Pac-Man is trapped, so he stops moving``
         
         self.game[self.pac_x][self.pac_y] = ' '
         if next_direction == "right":
