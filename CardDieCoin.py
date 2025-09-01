@@ -59,7 +59,7 @@ class Toss:
             total_sum += roll_outcome
             self.totalProb *= 1/len(present_die_outcomes)
         
-        print(f"No. or rolls: {number_of_rolls}, Sum of all rolls: {total_sum}. Probability: {self.totalProb:.6f}.")
+        print(f"No. or rolls: {number_of_rolls}, Sum of all rolls: {total_sum}. Probability: {self.totalProb:.8f}.")
         return self.flip_a_coin(total_sum)
 
     def pick_a_card(self):
