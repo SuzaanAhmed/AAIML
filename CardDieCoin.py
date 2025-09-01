@@ -39,9 +39,9 @@ class Toss:
     def roll_a_die(self, number_of_rolls):
         avoid_even = False
         avoid_odd = False
-        if number_of_rolls % 2 != 0:
+        if number_of_rolls % 2 != 0 and number_of_rolls > 11:
             avoid_even = True
-        elif number_of_rolls % 2 == 0:
+        elif number_of_rolls % 2 == 0 and number_of_rolls > 11:
             avoid_odd = True
         else:
             pass
