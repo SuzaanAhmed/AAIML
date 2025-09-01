@@ -3,6 +3,7 @@ import random
 class Toss:
     def __init__(self):
         self.coin_outcomes = ['H', 'T']
+
         self.All_die_outcomes = [1, 2, 3, 4, 5, 6]
         self.Odd_die_outcomes = [1, 3, 5]
         self.Even_die_outcomes = [2, 4, 6]
@@ -37,7 +38,7 @@ class Toss:
 
     def roll_a_die(self, number_of_rolls):
         avoid_even = False
-        aboid_odd = False
+        avoid_odd = False
         if number_of_rolls % 2 != 0:
             avoid_even = True
         elif number_of_rolls % 2 == 0:
@@ -47,16 +48,16 @@ class Toss:
 
         total_sum = 0
         if avoid_even:
-            die_outcomes = self.Odd_die_outcomes
+            present_die_outcomes = self.Odd_die_outcomes
         elif avoid_odd:
-            die_outcomes = self.Even_die_outcomes
+            present_die_outcomes = self.Even_die_outcomes
         else:
-            die_outcomes = self.All_die_outcomes
+            present_die_outcomes = self.All_die_outcomes
 
         for _ in range(number_of_rolls):
-            roll_outcome = random.choice(die_outcomes)
+            roll_outcome = random.choice(present_die_outcomes)
             total_sum += roll_outcome
-            self.totalProb *= 1/len(die_outcomes)
+            self.totalProb *= 1/len(present_die_outcomes)
         
         print(f"No. or rolls: {number_of_rolls}, Sum of all rolls: {total_sum}. Probability: {self.totalProb:.6f}.")
         return self.flip_a_coin(total_sum)
@@ -65,10 +66,10 @@ class Toss:
         card_name, card_value = random.choice(list(self.cards.items()))
 
         if card_name in ['K', 'Q', 'J']:
-            card_probability = 3 / len(self.cards)
+            card_probability = 12 / 52
             self.totalProb = card_probability 
         else:
-            card_probability = 10 / len(self.cards)
+            card_probability = 4 / 52
             self.totalProb = card_probability
         
         print(f"The card picked : {card_name}. The probability of picking this was {card_probability:.4f}.")
