@@ -28,7 +28,7 @@ class Toss:
                 head_count += 1
             else:
                 tail_count += 1
-
+        print(f"Total flips: {number_of_flips}")
         if head_count > tail_count:
             return 'H', head_count / number_of_flips
         elif tail_count > head_count:
