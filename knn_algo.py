@@ -38,4 +38,4 @@ def euclidean_distance(point1, point2):
     return math.sqrt(math.exp(point1-point2,2))
 
 if __name__=="__main__":
-    print(f"Prediction for {test_data[0][0]}")
+    print(f"Prediction for {labels[0][0]}:{test_data[0][0]}")
