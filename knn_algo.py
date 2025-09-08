@@ -39,7 +39,7 @@ class KNN:
             distance += (point1[i] - point2[i]) ** 2
         return math.sqrt(distance)
 
-    def _predict_one(self, test_point):
+    def predict_one(self, test_point):
         distances = []
         for i, train_point in enumerate(self.x_train):
             dist = self.euclidean_distance(test_point, train_point)
@@ -65,7 +65,7 @@ class KNN:
 
         for i, test_point in enumerate(self.x_test):
             true_label = self.y_test[i]
-            prediction = self._predict_one(test_point)
+            prediction = self.predict_one(test_point)
             
             if prediction == true_label:
                 correct_predictions += 1
