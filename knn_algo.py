@@ -6,90 +6,82 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
-labels_header = []
-all_data = []
-with open('Iris.csv', newline='') as csvf:
-    reader = csv.reader(csvf, delimiter=',')
-    labels_header = next(reader) 
-    
-    for row in reader:
-        features = [float(x) for x in row[1:5]] 
-        species = row[5]
-        all_data.append(features + [species])
+class KNN:
+    def __init__(self, k=5):
+        self.labels_header = []
+        self.all_data = []
+        self.K_VALUE = k
 
+        with open("iris.csv", newline='') as csvf:
+            reader = csv.reader(csvf, delimiter=',')
+            self.labels_header = next(reader)
 
-random.shuffle(all_data)
+            for row in reader:
+                features = [float(x) for x in row[1:5]]
+                species = row[5]
+                self.all_data.append(features + [species])
+        
+        random.shuffle(self.all_data)
+        test_size = int(len(self.all_data) * 0.2)
 
-n = len(all_data)
-test_size = int(0.2 * n)
-train_size = n - test_size
+        train_set = self.all_data[test_size:]
+        test_set = self.all_data[:test_size]
 
-train_set = all_data[:train_size]
-test_set = all_data[train_size:]
+        self.x_train = [row[:-1] for row in train_set]
+        self.y_train = [row[-1] for row in train_set]
+        self.x_test = [row[:-1] for row in test_set]
+        self.y_test = [row[-1] for row in test_set]
 
-# Separate features (X) from labels (y)
-x_train = [row[:-1] for row in train_set]
-y_train = [row[-1] for row in train_set]
-x_test = [row[:-1] for row in test_set]
-y_test = [row[-1] for row in test_set]
+    # FIX: Define as a static method since it doesn't use 'self'
+    @staticmethod
+    def euclidean_distance(point1, point2):
+        distance = 0.0
+        for i in range(len(point1)):
+            distance += (point1[i] - point2[i]) ** 2
+        return math.sqrt(distance)
 
+    def _predict_one(self, test_point):
+        """Helper function to predict a single point."""
+        distances = []
+        for i, train_point in enumerate(self.x_train):
+            dist = self.euclidean_distance(test_point, train_point)
+            # FIX: Use the correct training labels (self.y_train) for voting
+            distances.append((dist, self.y_train[i]))
 
+        distances.sort(key=lambda x: x[0])
+        neighbors = [distances[i][1] for i in range(self.K_VALUE)]
+        
+        most_common = Counter(neighbors).most_common(1)
+        return most_common[0][0]
 
-print(f"Train data size: {len(x_train)}")
-print(f"Test data size: {len(x_test)}")
+    def plot(self):        
+        plot_df = pd.DataFrame(self.all_data, columns=self.labels_header[1:])
+        
+        sns.pairplot(plot_df, hue='Species', markers=["o", "s", "D"])
+        plt.suptitle('Pair Plot of Loaded Iris.csv Data', y=1.02)
+        plt.show()
 
-def euclidean_distance(point1, point2):
-    distance = 0.0
-    for i in range(len(point1)):
-        distance += (point1[i] - point2[i]) ** 2
-    return math.sqrt(distance)
+    def classify_and_evaluate(self):
+        correct_predictions = 0
+        misclassified_indices = []
 
-def knn_classification(k, test_point, train_features, train_labels):
-    distances = []
-    
-    for i, train_point in enumerate(train_features):
-        dist = euclidean_distance(test_point, train_point)
-        distances.append((dist, train_labels[i]))
-
-    distances.sort(key=lambda x: x[0])
-
-    neighbors = [distances[i][1] for i in range(k)]
-    
-    most_common = Counter(neighbors).most_common(1)
-    return most_common[0][0]
-
-def plot():
-    plot_df = pd.DataFrame(all_data, columns=labels_header[1:])
-    
-    # Now use this DataFrame with Seaborn
-    sns.pairplot(plot_df, hue='Species', markers=["o", "s", "D"])
-    plt.suptitle('Pair Plot of Loaded Iris.csv Data', y=1.02)
-    plt.show()
-
+        for i, test_point in enumerate(self.x_test):
+            true_label = self.y_test[i]
+            prediction = self._predict_one(test_point)
+            
+            if prediction == true_label:
+                correct_predictions += 1
+            else:
+                misclassified_indices.append(i)
+                print(f"Misclassified sample {i}: Predicted '{prediction}', True Label was '{true_label}'")
+        
+        accuracy = (correct_predictions / len(self.x_test)) * 100
+        print("\n--- Evaluation Summary ---")
+        print(f"Total Test Samples: {len(self.x_test)}")
+        print(f"Correct Predictions: {correct_predictions}")
+        print(f"Final Accuracy: {accuracy:.2f}%")
+        print(f"Indices of misclassified samples: {misclassified_indices}")
 
 if __name__ == "__main__":
-    accuracy=1.0
-    error,acc=0,0
-    errors=[]
-    for i in range(30):
-        test_val = x_test[i]
-        true_label = y_test[i]
-        
-        K_VALUE = 5
-        
-        prediction = knn_classification(K_VALUE, test_val, x_train, y_train)
-        
-        print(f"\n--- {i} KNN Prediction ---")
-        print(f"Test Point Features: {test_val}")
-        print(f"True Label: {true_label}")
-        print(f"Predicted Label (with K={K_VALUE}): {prediction}")
-        if prediction==true_label:
-            acc+=1
-        else:
-            error+=1
-            print(f"The predicition for test point {i} is {prediction} while true prediction is {true_label}")
-            errors.append(i)
-    accuracy=float(acc/(acc+error))
-    print(f"The accuracy is {accuracy*100}")
-    print(f"False predictions at all {errors}")
-    plot()
+    knn = KNN(k=5)
+    knn.classify_and_evaluate()
