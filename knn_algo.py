@@ -1,6 +1,8 @@
 import csv
 import matplotlib.pyplot as plt
 import math
+import seaborn as sns
+
 labels = []
 values = []
 
@@ -21,36 +23,18 @@ train_data=values[:train_size]
 test_data=values[train_size:]
 print(f"Train data size:{len(train_data)}")
 print(f"Train data size:{len(test_data)}")
+iris_df = sns.load_dataset('iris')
 
-plt.scatter(
-    [float((i[1]+i[2])/2) for i in train_data if i[5] == "Iris-setosa"],  
-    [float((i[3]+i[4])/2) for i in train_data if i[5] == "Iris-setosa"],  
-    color='red',
-    label='iris-setosa',
-    marker='x'  
-)
+# --- 2. Create the Pair Plot ---
+# This single line of code generates the entire grid of plots.
+# 'hue="species"' tells Seaborn to color the data points based on the flower species,
+# which allows us to see the relationships for each class.
+sns.pairplot(iris_df, hue='species', markers=["o", "s", "D"])
 
-plt.scatter(
-    [float((i[1]+i[2])/2) for i in train_data if i[5] == "Iris-versicolor"],  
-    [float((i[3]+i[4])/2) for i in train_data if i[5] == "Iris-versicolor"],  
-    color='Blue',
-    label='iris-Virginica',
-    marker='+'  
-)
-plt.scatter(
-    [float((i[1]+i[2])/2) for i in train_data if i[5] == "Iris-virginica"],  
-    [float((i[3]+i[4])/2) for i in train_data if i[5] == "Iris-virginica"],  
-    color='green',
-    label='iris-Versicolor',
-    marker='*'  
-)
-
-plt.xlabel(labels[0][2])
-plt.ylabel(labels[0][3])
-plt.title('Iris datasets: Iris-virginica, Iris-versicolor, Iris-setosa')
-plt.legend()
-plt.grid(True)
+# --- 3. Display the Plot ---
+plt.suptitle('Pair Plot of the Iris Dataset', y=1.02) # Add a title above the plot
 plt.show()
+
 
 
 def euclidean_distance(point1, point2):
