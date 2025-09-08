@@ -22,23 +22,20 @@ train_size=n-test_size
 train_data=values[:train_size]
 test_data=values[train_size:]
 print(f"Train data size:{len(train_data)}")
-print(f"Train data size:{len(test_data)}")
-iris_df = sns.load_dataset('iris')
+print(f"Test data size:{len(test_data)}")
 
-# --- 2. Create the Pair Plot ---
-# This single line of code generates the entire grid of plots.
-# 'hue="species"' tells Seaborn to color the data points based on the flower species,
-# which allows us to see the relationships for each class.
-sns.pairplot(iris_df, hue='species', markers=["o", "s", "D"])
+def plot():
+    iris_df = sns.load_dataset('iris')
 
-# --- 3. Display the Plot ---
-plt.suptitle('Pair Plot of the Iris Dataset', y=1.02) # Add a title above the plot
-plt.show()
+    sns.pairplot(iris_df, hue='species', markers=["o", "s", "D"])
+
+    plt.suptitle('Pair Plot of the Iris Dataset', y=1.02) # Add a title above the plot
+    plt.show()
 
 
-
+# math.exp(1)
 def euclidean_distance(point1, point2):
-    distance = 0
-    for i in range(len(train_data)):
-        for j in range(1,):
-            distance=math.sqrt(point1-point2)**2
+    return math.sqrt(math.exp(point1-point2,2))
+
+if __name__=="__main__":
+    print(f"Prediction for {test_data[0][0]}")
