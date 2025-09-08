@@ -32,7 +32,6 @@ class KNN:
         self.x_test = [row[:-1] for row in test_set]
         self.y_test = [row[-1] for row in test_set]
 
-    # FIX: Define as a static method since it doesn't use 'self'
     @staticmethod
     def euclidean_distance(point1, point2):
         distance = 0.0
@@ -41,11 +40,10 @@ class KNN:
         return math.sqrt(distance)
 
     def _predict_one(self, test_point):
-        """Helper function to predict a single point."""
         distances = []
         for i, train_point in enumerate(self.x_train):
             dist = self.euclidean_distance(test_point, train_point)
-            # FIX: Use the correct training labels (self.y_train) for voting
+            
             distances.append((dist, self.y_train[i]))
 
         distances.sort(key=lambda x: x[0])
