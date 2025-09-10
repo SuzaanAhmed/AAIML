@@ -7,7 +7,7 @@ import seaborn as sns
 import pandas as pd
 
 class KNN:
-    def __init__(self, k=5):
+    def __init__(self, k):
         self.labels_header = []
         self.all_data = []
         self.K_VALUE = k
