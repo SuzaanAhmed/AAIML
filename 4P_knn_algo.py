@@ -12,7 +12,7 @@ class KNN:
         self.all_data = []
         self.K_VALUE = k
 
-        with open("iris.csv", newline='') as csvf:
+        with open("4P_iris.csv", newline='') as csvf:
             reader = csv.reader(csvf, delimiter=',')
             self.labels_header = next(reader)
 
