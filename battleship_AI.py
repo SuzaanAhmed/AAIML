@@ -1,5 +1,5 @@
 class BTS:
-    def __init__(self,size=7):
+    def __init__(self,size=14):
         self.player_board=[[' ' for _ in range(size)] for _ in range(size)]
         self.AI_board=self.player_board
 
