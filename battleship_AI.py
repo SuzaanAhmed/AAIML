@@ -38,7 +38,7 @@ class BTS:
                 x,y=map(int,input(f"Enter positon for {ship}, {shipCount} boxes long: ").split())
                 for i in range(shipCount):
                     if 0<=x<self.size and 0<=y<self.size and self.player_board[x][y]==' ':
-                        self.player_board[x][y]='*'
+                        self.player_board[x][i]='*'
                 # else:
                 #     print("Invalid move. Try again.")
                 #     i-=1

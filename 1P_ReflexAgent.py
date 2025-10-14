@@ -50,8 +50,7 @@ class PAC:
         ''''Dictionary to store the manual turn signal prompts'''
 
     def display_game(self):
-
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system('cls')
         # clears terminal
         for i in range(self.cols):
             print("|", end="")
@@ -60,11 +59,11 @@ class PAC:
             print("|")
         print("")
 
-    def manual_direction(self):
-        inp=input("Enter initial of direction(r: right, l: left, etc)")
-        for direction,turn in self.turn.items():
-            if direction==inp:
-                return turn
+    # def manual_direction(self):
+    #     inp=input("Enter initial of direction(r: right, l: left, etc)")
+    #     for direction,turn in self.turn.items():
+    #         if direction==inp:
+    #             return turn
 
     def get_next_pac_direction(self):
         possible_moves = {}
@@ -72,7 +71,7 @@ class PAC:
             #checks immediate next move's validity
             next_x, next_y = self.pac_x + dx, self.pac_y + dy
             if not (0 <= next_x < self.rows and 0 <= next_y < self.cols and self.game[next_x][next_y] != '%'):
-                if self.pac_traversal==direction: self.pac_traversal==""
+                # if self.pac_traversal==direction: self.pac_traversal==""
                 continue 
             
             pellet_count = 0
@@ -81,28 +80,28 @@ class PAC:
                     if self.game[self.pac_x][y] == '%':
                         break
                     if self.game[self.pac_x][y] == '*':
-                        pellet_count += 10
+                        pellet_count += 1
                         
             elif direction == "left":
                 for y in range(self.pac_y - 1, -1, -1):
                     if self.game[self.pac_x][y] == '%':
                         break
                     if self.game[self.pac_x][y] == '*':
-                        pellet_count += 10
+                        pellet_count += 1
                         
             elif direction == "up":
                 for x in range(self.pac_x - 1, -1, -1):
                     if self.game[x][self.pac_y] == '%':
                         break
                     if self.game[x][self.pac_y] == '*':
-                        pellet_count += 10
+                        pellet_count += 1
                         
             elif direction == "down":
                 for x in range(self.pac_x + 1, self.rows):
                     if self.game[x][self.pac_y] == '%':
                         break
                     if self.game[x][self.pac_y] == '*':
-                        pellet_count += 10
+                        pellet_count += 1
                         
             #counts most pellets in each direction to find optimal turn from the 4 set of pellets
             possible_moves[direction] = pellet_count
@@ -124,17 +123,23 @@ class PAC:
         next_direction = self.get_next_pac_direction()
         
         if next_direction is None:
-            return # Pac-Man is trapped, so he stops moving``
+            return # Pac-Man is trapped, so he stops moving
         
         self.game[self.pac_x][self.pac_y] = ' '
-        if next_direction == "right":
-            self.pac_y += 1
-        elif next_direction == "left":
-            self.pac_y -= 1
-        elif next_direction == "up":
-            self.pac_x -= 1
-        elif next_direction == "down":
-            self.pac_x += 1
+
+        for direction, (x,y) in self.directions.items():
+            if direction==next_direction:
+                self.pac_x+=x
+                self.pac_y+=y
+
+        # if next_direction == "right":
+        #     self.pac_y += 1
+        # elif next_direction == "left":
+        #     self.pac_y -= 1
+        # elif next_direction == "up":
+        #     self.pac_x -= 1
+        # elif next_direction == "down":
+        #     self.pac_x += 1
 
         self.game[self.pac_x][self.pac_y] = 'O'
 
@@ -145,7 +150,7 @@ class PAC:
         while True:
             self.move_pacman()
             self.display_game()
-            time.sleep(.2)
+            time.sleep(.3)
             if not any('*' in row for row in self.game):
                 print("YOU WIN! All pellets have been eaten.")
                 break
