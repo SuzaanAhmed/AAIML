@@ -21,11 +21,12 @@ class KNN:
                 species = row[5]
                 self.all_data.append(features + [species])
         
-        self.all_data=random.shuffle(self.all_data)
+        random.shuffle(self.all_data)
         test_size = int(len(self.all_data) * 0.2)
 
         train_set = self.all_data[test_size:]
         test_set = self.all_data[:test_size]
+        
 
         self.x_train = [row[:-1] for row in train_set]
         self.y_train = [row[-1] for row in train_set]

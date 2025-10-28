@@ -40,13 +40,14 @@ class PAC:
             "down": (1, 0)
         }
         '''Dictionary to store the possible directions and their respective coordinate changes'''
-
+        
+        '''
         self.turn={
             "r":"right",
             "l":"left",
             "u":"up",
             "d":"down"
-        }
+        }'''
         ''''Dictionary to store the manual turn signal prompts'''
 
     def display_game(self):
@@ -58,13 +59,13 @@ class PAC:
                 print(f" {self.game[i][j]} ", end='')
             print("|")
         print("")
-
-    # def manual_direction(self):
-    #     inp=input("Enter initial of direction(r: right, l: left, etc)")
-    #     for direction,turn in self.turn.items():
-    #         if direction==inp:
-    #             return turn
-
+    '''
+    def manual_direction(self):
+        inp=input("Enter initial of direction(r: right, l: left, etc)")
+        for direction,turn in self.turn.items():
+            if direction==inp:
+                return turn
+    '''
     def get_next_pac_direction(self):
         possible_moves = {}
         for direction, (dx, dy) in self.directions.items():
