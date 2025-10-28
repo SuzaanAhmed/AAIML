@@ -41,9 +41,9 @@ class BTS:
         self.player_guess_board = self.create_board()
         self.clanker_guess_board = self.create_board()
         self.clanker_move_function = None
-        self.import_ai(clanker_module)
+        self.import_clanker(clanker_module)
 
-    def import_ai(self, clanker_module):
+    def import_clanker(self, clanker_module):
         """Dynamically imports the clanker module and gets its move function."""
 
         if clanker_module.endswith(".py"):
@@ -128,7 +128,7 @@ class BTS:
                 except IndexError:
                      print("Invalid coordinates. Please enter numbers between 0 and 9.")
  
-    def place_ships_ai(self):
+    def place_ships_clanker(self):
         """Clanker places ships"""
         print("\nClanker placing ships")
         time.sleep(5)
@@ -170,7 +170,7 @@ class BTS:
             print(">>> MISS!")
             self.player_guess_board[x][y] = 'M'
 
-    def process_ai_guess(self, x, y):
+    def process_clanker_guess(self, x, y):
         """clanker moves processing"""
         print(f"clanker guesses: ({x}, {y})")
         target = self.player_board[x][y]
@@ -193,8 +193,8 @@ class BTS:
             print("="*30)
             return True
             
-        ai_hits = sum(row.count('H') for row in self.player_board)
-        if ai_hits == self.total_ship_cells:
+        clanker_hits = sum(row.count('H') for row in self.player_board)
+        if clanker_hits == self.total_ship_cells:
             print("\n" + "="*30)
             print("Oh no! The clanker sunk all your ships! clanker WINS!")
             print("="*30)
@@ -205,7 +205,7 @@ class BTS:
     def play_game(self):
         print("Battleship gameplay")
         self.choose_Pos()
-        self.place_ships_ai()
+        self.place_ships_clanker()
 
         while True:
             self.print_boards()
@@ -223,7 +223,7 @@ class BTS:
             # We pass it the clanker's "memory" (guess board) and the board size
             try:
                 ax, ay = self.clanker_move_function(self.clanker_guess_board, self.size)
-                self.process_ai_guess(ax, ay)
+                self.process_clanker_guess(ax, ay)
             except Exception as e:
                 print(f"ERROR during clanker move: {e}")
                 print("clanker forfeits turn.")
@@ -235,5 +235,7 @@ class BTS:
                 
 
 if __name__=="__main__":
-    bts=BTS()
+    clanker_file = "battleship_clanker_simple" 
+
+    bts=BTS(clanker_module=clanker_file)
     bts.play_game()
