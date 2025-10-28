@@ -6,8 +6,10 @@ class BTS:
         self.size=size
 
         self.ships={
-            "Main Ship":5,
-            "Sub Ship":3,
+            "Biggest Ship":5,
+            "Sub-Big Ship":4,
+            "Mid Ship":3,
+            "Sub mid ship":2,
             "Tiny Ship":1
         }
 
@@ -18,6 +20,9 @@ class BTS:
         # self.MainShipTest=False
         # self.SubShipTest=False
         # self.TinyShipTest=False
+
+    def create_board(self):
+        return [[' ' for _ in range(self.size)] for _ in range(self.size)]
 
 
     def print_playerBoard(self):
