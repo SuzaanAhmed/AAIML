@@ -139,6 +139,19 @@ class BTS:
 
     def play_game(self):
         print("Battleship gameplay")
+        self.choose_Pos()
+        self.place_ships_ai()
+        
+        while True:
+            self.print_boards()
+            
+            # --- Player's Turn ---
+            print("\n--- Your Turn ---")
+            px, py = self.get_player_guess()
+            self.process_player_guess(px, py)
+            if self.check_game_over():
+                break
+        
 
 if __name__=="__main__":
     bts=BTS()
