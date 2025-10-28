@@ -65,7 +65,7 @@ class BTS:
         print("     PLAYER'S GUESSES (Clanker Board)         YOUR BOARD (clanker Guesses)")
         header = "   " + " ".join([f"{i}" for i in range(self.size)])
         print(header + "        " + header)
-        print("  " + "-"*(self.size*2+1) + "        " + "  " + "-"*(self.size*2+1))
+        print("   " + "-"*(self.size*2+1) + "        " + "   " + "-"*(self.size*2+1))
         
         for i in range(self.size):
             row_guess = " ".join(self.player_guess_board[i]) 
