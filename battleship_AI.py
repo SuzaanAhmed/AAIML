@@ -109,6 +109,33 @@ class BTS:
                     self.place_ship_on_board(self.ai_board, ship_length, x, y, orientation)
                     break # Move to the next ship
 
+    def get_player_guess(self):
+            """Validity of guess"""
+            while True:
+                try:
+                    pos = input("Enter your guess (row,col): ")
+                    x, y = map(int, pos.split(','))
+                    
+                    if not (0 <= x < self.size and 0 <= y < self.size):
+                        print("Coordinates out of bounds. Try again.")
+                    elif self.player_guess_board[x][y] != ' ':
+                        print("You've already guessed that spot. Try again.")
+                    else:
+                        return x, y
+                except ValueError:
+                    print("Invalid input. Please use the format 'row,col'.")
+
+    def process_player_guess(self, x, y):
+        """Checks whether its correct guess i.e. 'Hit' or 'Miss'"""
+        target = self.ai_board[x][y]
+        
+        if target == 'S':
+            print(">>> HIT!")
+            self.player_guess_board[x][y] = 'H'
+            self.ai_board[x][y] = 'H' # Mark on AI's board as hit
+        else:
+            print(">>> MISS!")
+            self.player_guess_board[x][y] = 'M'
 
 if __name__=="__main__":
     bts=BTS()
