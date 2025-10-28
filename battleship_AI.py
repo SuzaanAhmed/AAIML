@@ -11,8 +11,9 @@ However, the algorithm for clanker is in a different file to be imported.
 The reason for this design is to create multiple files of different algorithms to be able to alternate and pklay with each.
 So the algorithm will be imported from other files.
 '''
+
 class BTS:
-    def __init__(self,size=10):
+    def __init__(self,clanker_module,size=10):
         self.size=size
 
         self.ships={
@@ -34,20 +35,35 @@ class BTS:
 
         """Below is what either side sees their board as"""
         self.player_board = self.create_board()
-        self.ai_board = self.create_board()
+        self.clanker_board = self.create_board()
 
         """Below is what either side sees the others board as"""
         self.player_guess_board = self.create_board()
-        self.ai_guess_board = self.create_board()
+        self.clanker_guess_board = self.create_board()
+        self.clanker_move_function = None
+        self.import_ai(clanker_module)
+
+    def import_ai(self, clanker_module):
+        """Dynamically imports the clanker module and gets its move function."""
+
+        if clanker_module.endswith(".py"):
+            clanker_module = clanker_module[:-3]
+            
+        print(f"Fecthing clanker algo from {clanker_module}.py")
+        # Use importlib to load the module
+        clanker_mod = importlib.import_module(clanker_module)
+        
+        # Get the required function from the loaded module
+        self.clanker_move_function = getattr(clanker_mod, 'get_clanker_move')
+        print("clanker algo imported.")
 
     def create_board(self):
         return [[' ' for _ in range(self.size)] for _ in range(self.size)]
 
-
     def print_boards(self):
         """Decided to print out both boards"""
         print("\n" + "="*53)
-        print("     PLAYER'S GUESSES (AI Board)         YOUR BOARD (AI's Guesses)")
+        print("     PLAYER'S GUESSES (Clanker Board)         YOUR BOARD (clanker Guesses)")
         header = "   " + " ".join([f"{i}" for i in range(self.size)])
         print(header + "        " + header)
         print("  " + "-"*(self.size*2+1) + "        " + "  " + "-"*(self.size*2+1))
@@ -122,8 +138,8 @@ class BTS:
                 x = random.randint(0, self.size - 1)
                 y = random.randint(0, self.size - 1)
                 
-                if self.is_valid_placement(self.ai_board, ship_length, x, y, orientation):
-                    self.place_ship_on_board(self.ai_board, ship_length, x, y, orientation)
+                if self.is_valid_placement(self.clanker_board, ship_length, x, y, orientation):
+                    self.place_ship_on_board(self.clanker_board, ship_length, x, y, orientation)
                     break # Move to the next ship
 
     def get_player_guess(self):
@@ -144,43 +160,43 @@ class BTS:
 
     def process_player_guess(self, x, y):
         """Checks whether its correct guess i.e. 'Hit' or 'Miss'"""
-        target = self.ai_board[x][y]
+        target = self.clanker_board[x][y]
         
         if target == 'S':
             print(">>> HIT!")
             self.player_guess_board[x][y] = 'H'
-            self.ai_board[x][y] = 'H' # Mark on AI's board as hit
+            self.clanker_board[x][y] = 'H' # Mark on clanker's board as hit
         else:
             print(">>> MISS!")
             self.player_guess_board[x][y] = 'M'
 
     def process_ai_guess(self, x, y):
         """clanker moves processing"""
-        print(f"AI guesses: ({x}, {y})")
+        print(f"clanker guesses: ({x}, {y})")
         target = self.player_board[x][y]
         
-        self.ai_guess_board[x][y] = 'M' 
+        self.clanker_guess_board[x][y] = 'M' 
         
         if target == 'S':
-            print(">>> AI HIT your ship!")
+            print(">>> clanker HIT your ship!")
             self.player_board[x][y] = 'H'
-            self.ai_guess_board[x][y] = 'H' 
+            self.clanker_guess_board[x][y] = 'H' 
         else:
-            print(">>> AI missed.")
+            print(">>> clanker missed.")
 
     def check_game_over(self):
         """whether either of their ships have been destroyed"""
         player_hits = sum(row.count('H') for row in self.player_guess_board)
         if player_hits == self.total_ship_cells:
             print("\n" + "="*30)
-            print("Hooray! YOU WIN! All AI ships sunk!")
+            print("Hooray! YOU WIN! All clanker ships sunk!")
             print("="*30)
             return True
             
         ai_hits = sum(row.count('H') for row in self.player_board)
         if ai_hits == self.total_ship_cells:
             print("\n" + "="*30)
-            print("Oh no! The AI sunk all your ships! AI WINS!")
+            print("Oh no! The clanker sunk all your ships! clanker WINS!")
             print("="*30)
             return True
             
@@ -201,16 +217,16 @@ class BTS:
             if self.check_game_over():
                 break
         
-            # --- AI's Turn ---
-            print("\n--- AI's Turn ---")
+            # --- clanker's Turn ---
+            print("\n--- clanker's Turn ---")
             # This is the key part: call the imported function
-            # We pass it the AI's "memory" (guess board) and the board size
+            # We pass it the clanker's "memory" (guess board) and the board size
             try:
-                ax, ay = self.ai_move_function(self.ai_guess_board, self.size)
+                ax, ay = self.clanker_move_function(self.clanker_guess_board, self.size)
                 self.process_ai_guess(ax, ay)
             except Exception as e:
-                print(f"ERROR during AI move: {e}")
-                print("AI forfeits turn.")
+                print(f"ERROR during clanker move: {e}")
+                print("clanker forfeits turn.")
 
             if self.check_game_over():
                 break
