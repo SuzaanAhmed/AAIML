@@ -2,9 +2,6 @@ import random
 import time
 class BTS:
     def __init__(self,size=10):
-        self.player_board=[[' ' for _ in range(size)] for _ in range(size)]
-        self.AI_board=self.player_board
-
         self.size=size
 
         self.ships={
@@ -22,6 +19,15 @@ class BTS:
         # self.MainShipTest=False
         # self.SubShipTest=False
         # self.TinyShipTest=False
+        self.total_ship_cells = sum(self.ships.values())
+
+        """Below is what either side sees their board as"""
+        self.player_board = self.create_board()
+        self.ai_board = self.create_board()
+
+        """Below is what either side sees the others board as"""
+        self.player_guess_board = self.create_board()
+        self.ai_guess_board = self.create_board()
 
     def create_board(self):
         return [[' ' for _ in range(self.size)] for _ in range(self.size)]
@@ -137,11 +143,29 @@ class BTS:
             print(">>> MISS!")
             self.player_guess_board[x][y] = 'M'
 
+    def check_game_over(self):
+        """whether either of their ships have been destroyed"""
+        player_hits = sum(row.count('H') for row in self.player_guess_board)
+        if player_hits == self.total_ship_cells:
+            print("\n" + "="*30)
+            print("Hooray! YOU WIN! All AI ships sunk!")
+            print("="*30)
+            return True
+            
+        ai_hits = sum(row.count('H') for row in self.player_board)
+        if ai_hits == self.total_ship_cells:
+            print("\n" + "="*30)
+            print("Oh no! The AI sunk all your ships! AI WINS!")
+            print("="*30)
+            return True
+            
+        return False
+
     def play_game(self):
         print("Battleship gameplay")
         self.choose_Pos()
         self.place_ships_ai()
-        
+
         while True:
             self.print_boards()
             
