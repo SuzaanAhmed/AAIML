@@ -46,14 +46,16 @@ class BTS:
         if orientation == 'h':
             if y + ship_size > self.size:
                 return False
+            for i in range(ship_size):
+                if board[x][y+i] != ' ':
+                    return False
         else: # 'v'
             if x + ship_size > self.size:
                 return False
-        for i in range(ship_size):
-                if board[x][y+i] != ' ':
+            for i in range(ship_size):
+                if board[x+i][y] != ' ':
                     return False
         return True
-        
 
 
     def choose_Pos(self):
