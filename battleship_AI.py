@@ -49,7 +49,11 @@ class BTS:
         else: # 'v'
             if x + ship_size > self.size:
                 return False
+        for i in range(ship_size):
+                if board[x][y+i] != ' ':
+                    return False
         return True
+        
 
 
     def choose_Pos(self):
