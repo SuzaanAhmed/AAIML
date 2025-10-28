@@ -26,13 +26,20 @@ class BTS:
 
 
     def print_playerBoard(self):
-        print('\n-----------------------------------------')
-        for row in self.player_board:
-            print('|', end='')
-            for cell in row:
-                print(f" {cell} ", end='|')
-            print('\n-----------------------------------------')
-        print()
+        """Prints the player's guess board and their own board side-by-side."""
+        print("\n" + "="*53)
+        print("     PLAYER'S GUESSES (AI Board)         YOUR BOARD (AI's Guesses)")
+        header = "   " + " ".join([f"{i}" for i in range(self.size)])
+        print(header + "        " + header)
+        print("  " + "-"*(self.size*2+1) + "        " + "  " + "-"*(self.size*2+1))
+        
+        for i in range(self.size):
+            row_guess = " | ".join(self.player_guess_board[i])
+            row_own = " | ".join(self.player_board[i])
+            print(f"{i:1} | {row_guess} |      {i:1} | {row_own} |")
+        
+        print("  " + "-"*(self.size*2+1) + "        " + "  " + "-"*(self.size*2+1))
+        print("Legend: 'S' = Your Ship, 'H' = Hit, 'M' = Miss, 'X' = Sunk Ship Part")
 
 
     def choose_Pos(self):
