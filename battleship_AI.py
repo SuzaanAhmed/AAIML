@@ -41,6 +41,16 @@ class BTS:
         print("  " + "-"*(self.size*2+1) + "        " + "  " + "-"*(self.size*2+1))
         print("Legend: 'S' = Your Ship, 'H' = Hit, 'M' = Miss, 'X' = Sunk Ship Part")
 
+    def is_valid_placement(self, board, ship_size, x, y, orientation):
+        """Checks if a ship can be placed at the given location."""
+        if orientation == 'h':
+            if y + ship_size > self.size:
+                return False
+        else: # 'v'
+            if x + ship_size > self.size:
+                return False
+        return True
+
 
     def choose_Pos(self):
         while True:
