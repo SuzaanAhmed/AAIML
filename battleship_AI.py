@@ -143,6 +143,9 @@ class BTS:
             print(">>> MISS!")
             self.player_guess_board[x][y] = 'M'
 
+    def process_ai_guess():
+
+        
     def check_game_over(self):
         """whether either of their ships have been destroyed"""
         player_hits = sum(row.count('H') for row in self.player_guess_board)
@@ -176,6 +179,13 @@ class BTS:
             if self.check_game_over():
                 break
         
+            # --- AI's Turn ---
+            print("\n--- AI's Turn ---")
+            # This is the key part: call the imported function
+            # We pass it the AI's "memory" (guess board) and the board size
+            try:
+                ax, ay = self.ai_move_function()
+                
 
 if __name__=="__main__":
     bts=BTS()
