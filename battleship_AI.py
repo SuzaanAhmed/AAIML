@@ -137,6 +137,9 @@ class BTS:
             print(">>> MISS!")
             self.player_guess_board[x][y] = 'M'
 
+    def play_game(self):
+        print("Battleship gameplay")
+
 if __name__=="__main__":
     bts=BTS()
-    bts.choose_Pos()
+    bts.play_game()
