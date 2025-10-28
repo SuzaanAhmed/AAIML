@@ -1,5 +1,16 @@
 import random
 import time
+import sys
+import importlib
+import os
+
+'''
+VERY IMPORTANT:
+This code is the interface for moves from both Human and clanker and processeswhich is correct.
+However, the algorithm for clanker is in a different file to be imported.
+The reason for this design is to create multiple files of different algorithms to be able to alternate and pklay with each.
+So the algorithm will be imported from other files.
+'''
 class BTS:
     def __init__(self,size=10):
         self.size=size
@@ -143,9 +154,20 @@ class BTS:
             print(">>> MISS!")
             self.player_guess_board[x][y] = 'M'
 
-    def process_ai_guess():
-
+    def process_ai_guess(self, x, y):
+        """clanker moves processing"""
+        print(f"AI guesses: ({x}, {y})")
+        target = self.player_board[x][y]
         
+        self.ai_guess_board[x][y] = 'M' 
+        
+        if target == 'S':
+            print(">>> AI HIT your ship!")
+            self.player_board[x][y] = 'H'
+            self.ai_guess_board[x][y] = 'H' 
+        else:
+            print(">>> AI missed.")
+
     def check_game_over(self):
         """whether either of their ships have been destroyed"""
         player_hits = sum(row.count('H') for row in self.player_guess_board)
@@ -184,7 +206,16 @@ class BTS:
             # This is the key part: call the imported function
             # We pass it the AI's "memory" (guess board) and the board size
             try:
-                ax, ay = self.ai_move_function()
+                ax, ay = self.ai_move_function(self.ai_guess_board, self.size)
+                self.process_ai_guess(ax, ay)
+            except Exception as e:
+                print(f"ERROR during AI move: {e}")
+                print("AI forfeits turn.")
+
+            if self.check_game_over():
+                break
+            
+            input("Press Enter to continue to the next turn...")
                 
 
 if __name__=="__main__":
