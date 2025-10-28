@@ -25,8 +25,8 @@ class BTS:
         return [[' ' for _ in range(self.size)] for _ in range(self.size)]
 
 
-    def print_playerBoard(self):
-        """Prints the player's guess board and their own board side-by-side."""
+    def print_boards(self):
+        """Decided to print out both boards"""
         print("\n" + "="*53)
         print("     PLAYER'S GUESSES (AI Board)         YOUR BOARD (AI's Guesses)")
         header = "   " + " ".join([f"{i}" for i in range(self.size)])
