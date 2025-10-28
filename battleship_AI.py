@@ -67,24 +67,31 @@ class BTS:
                 board[x+i][y] = ship_char
 
     def choose_Pos(self):
-        while True:
-            for ship,shipCount in self.ships.items():
-                # for i in range(shipCount):
-                self.print_playerBoard()
-                x,y=map(int,input(f"Enter positon for {ship}, {shipCount} boxes long: ").split())
-                for i in range(shipCount):
-                    if 0<=x<self.size and 0<=y<self.size and self.player_board[x][y]==' ':
-                        self.player_board[x][i]='*'
-                # else:
-                #     print("Invalid move. Try again.")
-                #     i-=1
-                #     continue                    
-
-            reset=(input("Do you want to reset the board?(y/n): "))
-            if reset=="n":
-                break
-
-            self.player_board=[[' ' for _ in range(self.size)] for _ in range(self.size)]
+        """Allows the player to interactively place their ships."""
+        print("\n--- Place Your Ships ---")
+        for ship_name, ship_length in self.ships.items():
+            while True:
+                self.print_boards()
+                print(f"Placing {ship_name} (length {ship_length})")
+                
+                try:
+                    pos = input(f"Enter start coordinate (row,col) (e.g., 3,4): ")
+                    x, y = map(int, pos.split(','))
+                    
+                    orientation = input("Enter orientation (h for horizontal, v for vertical): ").lower()
+                    if orientation not in ['h', 'v']:
+                        raise ValueError("Invalid orientation.")
+                    
+                    if self.is_valid_placement(self.player_board, ship_length, x, y, orientation):
+                        self.place_ship_on_board(self.player_board, ship_length, x, y, orientation)
+                        break
+                    else:
+                        print("Invalid placement. Ship is out of bounds or overlaps another ship. Try again.")
+                
+                except ValueError as e:
+                    print(f"Invalid input ({e}). Please use the format 'row,col' and 'h' or 'v'.")
+                except IndexError:
+                     print("Invalid coordinates. Please enter numbers between 0 and 9.")
 
 if __name__=="__main__":
     bts=BTS()
