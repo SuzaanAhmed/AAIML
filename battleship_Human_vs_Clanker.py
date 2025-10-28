@@ -68,8 +68,8 @@ class BTS:
         print("  " + "-"*(self.size*2+1) + "        " + "  " + "-"*(self.size*2+1))
         
         for i in range(self.size):
-            row_guess = " | ".join(self.player_guess_board[i])
-            row_own = " | ".join(self.player_board[i])
+            row_guess = " ".join(self.player_guess_board[i]) 
+            row_own = " ".join(self.player_board[i])
             print(f"{i:1} | {row_guess} |      {i:1} | {row_own} |")
         
         print("  " + "-"*(self.size*2+1) + "        " + "  " + "-"*(self.size*2+1))
