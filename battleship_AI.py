@@ -57,6 +57,14 @@ class BTS:
                     return False
         return True
 
+    def place_ship_on_board(self, board, ship_size, x, y, orientation, ship_char='S'):
+        """Actually places ship as wanted by the person or a clanker"""
+        if orientation == 'h':
+            for i in range(ship_size):
+                board[x][y+i] = ship_char
+        else: # 'v'
+            for i in range(ship_size):
+                board[x+i][y] = ship_char
 
     def choose_Pos(self):
         while True:
