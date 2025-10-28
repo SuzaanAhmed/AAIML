@@ -1,3 +1,5 @@
+import random
+import time
 class BTS:
     def __init__(self,size=10):
         self.player_board=[[' ' for _ in range(size)] for _ in range(size)]
@@ -92,6 +94,21 @@ class BTS:
                     print(f"Invalid input ({e}). Please use the format 'row,col' and 'h' or 'v'.")
                 except IndexError:
                      print("Invalid coordinates. Please enter numbers between 0 and 9.")
+ 
+    def place_ships_ai(self):
+        """Clanker places ships"""
+        print("\nClanker placing ships")
+        time.sleep(5)
+        for _, ship_length in self.ships.items():
+            while True:
+                orientation = random.choice(['h', 'v'])
+                x = random.randint(0, self.size - 1)
+                y = random.randint(0, self.size - 1)
+                
+                if self.is_valid_placement(self.ai_board, ship_length, x, y, orientation):
+                    self.place_ship_on_board(self.ai_board, ship_length, x, y, orientation)
+                    break # Move to the next ship
+
 
 if __name__=="__main__":
     bts=BTS()
