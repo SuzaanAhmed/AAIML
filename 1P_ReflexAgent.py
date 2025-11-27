@@ -52,13 +52,14 @@ class PAC:
 
     def display_game(self):
         os.system('cls')
+        print("=======================================================")
         # clears terminal
         for i in range(self.cols):
             print("|", end="")
             for j in range(self.rows):
                 print(f" {self.game[i][j]} ", end='')
             print("|")
-        print("")
+        print("=======================================================")
     '''
     def manual_direction(self):
         inp=input("Enter initial of direction(r: right, l: left, etc)")
